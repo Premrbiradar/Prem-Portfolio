@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper-50 text-ink-900 font-body antialiased;
+  }
+  html.dark body {
+    @apply bg-ink-950 text-paper-100;
+  }
+  ::selection {
+    @apply bg-signal-teal/30;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.signal.teal');
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .section-shell {
+    @apply mx-auto w-full max-w-[1920px] px-6 sm:px-10 lg:px-16;
+  }
+
+  /* Semantic theme layer: every component reads colors through these
+     classes instead of raw palette tokens, so light/dark mode stays
+     consistent without repeating dark: variants everywhere. */
+  .bg-surface {
+    @apply bg-paper-50 dark:bg-ink-950;
+  }
+  .bg-surface-alt {
+    @apply bg-paper-100/60 dark:bg-ink-900;
+  }
+  .bg-surface-card {
+    @apply border border-paper-200 bg-white/80 dark:border-ink-700/60 dark:bg-ink-800/60;
+  }
+  .bg-surface-nav {
+    @apply bg-paper-50/80 dark:bg-ink-950/70;
+  }
+  .border-subtle {
+    @apply border-paper-200 dark:border-ink-700/60;
+  }
+  .text-primary {
+    @apply text-ink-900 dark:text-paper-50;
+  }
+  .text-secondary {
+    @apply text-ink-500 dark:text-paper-400;
+  }
+  .text-accent-teal {
+    @apply text-signal-tealDeep dark:text-signal-teal;
+  }
+  .text-accent-brass {
+    @apply text-brass-dark dark:text-brass;
+  }
+  .bg-accent-teal {
+    @apply bg-signal-tealDeep dark:bg-signal-teal;
+  }
+  .border-accent-teal {
+    @apply border-signal-tealDeep/40 dark:border-signal-teal/40;
+  }
+}
+
+@layer components {
+  /* Light sweep across a button on hover */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .btn-shine::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%);
+    transform: translateX(-130%);
+  }
+  .btn-shine:hover::after {
+    transform: translateX(130%);
+    transition: transform 0.75s ease;
+  }
+
+  /* Flowing cyan-to-orange gradient text */
+  .text-gradient-animated {
+    background-image: linear-gradient(100deg, #0e7490, #22d3ee, #fb923c, #22d3ee, #0e7490);
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientFlow 7s linear infinite;
+  }
+  @keyframes gradientFlow {
+    from { background-position: 0% 50%; }
+    to { background-position: 250% 50%; }
+  }
+
+  /* Glowing focus ring for form fields */
+  .field-glow:focus {
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18), 0 0 24px rgba(34, 211, 238, 0.16);
+  }
+
+  /* Animated conic-gradient border: wrap an element with this, then give the
+     direct child the real background so only a thin ring of the spin shows. */
+  .gradient-border {
+    position: relative;
+    background: conic-gradient(from 0deg, #22d3ee, #6366f1, #fb923c, #22d3ee);
+    animation: spin 6s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Static, non-animated flowing gradient bg for badges/rails */
+  .bg-flow {
+    background-image: linear-gradient(90deg, #0e7490, #22d3ee, #fb923c);
+    background-size: 200% 100%;
+    animation: borderFlow 4s ease infinite;
+  }
+
+  /* Card with a soft glow ring that appears on hover, without JS */
+  .glow-card {
+    position: relative;
+    isolation: isolate;
+  }
+  .glow-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.5), rgba(251, 146, 60, 0.5));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .glow-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Noise texture overlay for the aurora background, kept extremely subtle */
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
