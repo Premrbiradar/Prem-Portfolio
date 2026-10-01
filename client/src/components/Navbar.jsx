@@ -43,10 +43,23 @@ const Navbar = () => {
   }, []);
 
   const scrollTo = (id) => {
-    setOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
+  setOpen(false);
 
+  setTimeout(() => {
+    const element = document.getElementById(id);
+
+    if (element) {
+      const navbarHeight = 65;
+      const elementPosition =
+        element.getBoundingClientRect().top + window.scrollY;
+
+      window.scrollTo({
+        top: elementPosition - navbarHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, 100);
+};
   return (
     <motion.header
       initial={{ y: -72, opacity: 0 }}
