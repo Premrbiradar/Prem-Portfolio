@@ -49,7 +49,7 @@ const Navbar = () => {
     const element = document.getElementById(id);
 
     if (element) {
-      const navbarHeight = 65;
+      const navbarHeight = 15;
       const elementPosition =
         element.getBoundingClientRect().top + window.scrollY;
 
